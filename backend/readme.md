@@ -21,9 +21,9 @@ DevTinder API
 
 // profile Router
 
-- GET /profile/view
-- PATCH /profile/edit
-- PATCH /profile/password 
+- GET /profile/view : done
+- PATCH /profile/edit : done
+- PATCH /profile/password : done
 
 // requestRouter
 
