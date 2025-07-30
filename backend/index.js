@@ -17,7 +17,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser()); // ye auth ke liye importanat hai isme cookie store hoti hai
 
 // ROUTES
 app.use("/api/v1/user", userRoute);

@@ -2,6 +2,8 @@ import User from "../models/user.model.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const userSignup = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -46,7 +48,7 @@ export const userLogin = async (req, res) => {
   }
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "1d",
   });
 
   // Set the token as a cookie
@@ -60,7 +62,6 @@ export const userLogin = async (req, res) => {
       email: user.email,
       name: user.name,
     },
-    token,
   });
 };
 
@@ -77,9 +78,9 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const getUserByName = async (req, res) => {
-  const { firstName } = req.body;
+  const userId = req.userId;
   try {
-    const user = await User.findOne({ firstName });
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     } else {
