@@ -9,21 +9,33 @@ DevTinder
 7️⃣ See the requests we've sent/received
 8️⃣ Update your profile
 
-API Endpoints (CRUD operations)
-POST /signup
-POST /login
-POST /profile
-GET /profile
-GET /requests
-GET /connections
-PATCH /profile
-DELETE /profile
+DevTinder API
 
-Requests Flow
-POST /sendRequest
-→ ignore
-→ interested
+# DevTinder APIs
 
-POST /reviewRequest
-→ accept
-→ reject
+// authRouter
+
+- POST /signup : done
+- POST /login : done
+- POST /logout : done
+
+// profile Router
+
+- GET /profile/view
+- PATCH /profile/edit
+- PATCH /profile/password 
+
+// requestRouter
+
+- POST /request/send/interested/:userId
+- POST /request/send/ignored/:userId
+- POST /request/review/accepted/:requestId
+- POST /request/review/rejected/:requestId
+
+// userrouter
+
+- GET /user/connections
+- GET /user/requests
+- GET /user/feed - Gets you the profiles of other users on platform
+
+Status: ignore, interested, accepted, rejected
