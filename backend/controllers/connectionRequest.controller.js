@@ -55,3 +55,39 @@ export const sendConnectionRequest = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const reviewConnectionRequest = async (req, res) => {
+  const loggedInUser = req.userId;
+  const requestId = req.params.requestId;
+  const status = req.params.status;
+
+  const allowedRequest = ["accepted", "rejected"];
+  const isAllowedRequests = allowedRequest.includes(status);
+  if (!isAllowedRequests) {
+    res
+      .status(400)
+      .json({ message: "person is not able to accept the request" });
+  }
+
+  try {
+    const coonectionRequest = await RequestModel.findOne({
+      _id: requestId,
+      toUserId: loggedInUser,
+      status: "interested",
+    });
+
+    if (!coonectionRequest) {
+      res
+        .status(400)
+        .json({ message: "person is not able to accept the request" });
+    }
+
+    coonectionRequest.status = status;
+    await coonectionRequest.save();
+    res.status(200).json({ message: "request accepted" });
+    res;
+  } catch (error) {
+    console.error("Error making connection:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
