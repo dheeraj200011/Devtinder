@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  deleteUser,
   getUser,
   updatePassword,
   updateUser,

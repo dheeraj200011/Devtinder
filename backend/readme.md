@@ -27,8 +27,7 @@ DevTinder API
 
 // requestRouter
 
-- POST /request/send/interested/:userId
-- POST /request/send/ignored/:userId
+- POST /request/send/:status/:userId
 - POST /request/review/accepted/:requestId
 - POST /request/review/rejected/:requestId
 

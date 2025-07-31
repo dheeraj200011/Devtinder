@@ -6,6 +6,7 @@ import connectDb from "./config/mongoose.js";
 import authRoute from "./routes/auth.route.js";
 import profileRoute from "./routes/profile.route.js";
 import userRoute from "./routes/user.route.js";
+import requestRoute from "./routes/connectionRequest.route.js";
 
 dotenv.config();
 const app = express();
@@ -24,7 +25,7 @@ app.use(cookieParser()); // ye auth ke liye importanat hai isme cookie store hot
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/profile", profileRoute);
 app.use("/api/v1/user", userRoute); // user route for getting all users
-//app.use("/api/v1/request", requestRoute); // request route for sending and accepting friend requests
+app.use("/api/v1/request", requestRoute); // request route for sending and accepting friend requests
 
 // SERVER
 // sabse phle database se connect karna hai phir server ko start karna hota hai
