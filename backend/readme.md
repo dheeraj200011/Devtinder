@@ -27,13 +27,13 @@ DevTinder API
 
 // requestRouter
 
-- POST /request/send/:status/:userId
-- POST /request/review/:status/:requestId
+- POST /request/send/:status/:userId : done
+- POST /request/review/:status/:requestId: done
 
 // userrouter
 
-- GET /user/connections
-- GET /user/requests
-- GET /user/feed - Gets you the profiles of other users on platform
+- GET /user/connections : Done
+- GET /user/requests : Done
+- GET /user/feed - Gets you the profiles of other users on platform : Done
 
 Status: ignore, interested, accepted, rejected
