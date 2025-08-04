@@ -1,6 +1,25 @@
 import React from "react";
+import { logoutUrl } from "../../utils/constants";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        logoutUrl,
+        {},
+        { withCredentials: true }
+      );
+      console.log("Logout response:", response.data);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error.response?.data || error.message);
+    }
+  };
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-1">
@@ -39,7 +58,7 @@ const Navbar = () => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <Link onClick={() => handleLogout()}>Logout</Link>
             </li>
           </ul>
         </div>

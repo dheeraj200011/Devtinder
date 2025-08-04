@@ -9,7 +9,6 @@ const router = express.Router();
 
 router.post("/signup", userSignup);
 router.post("/login", userLogin);
-router.get("/logout", isAuth, userLogout); // logout api
-
+router.post("/logout", isAuth, userLogout); // logout api
 
 export default router;
