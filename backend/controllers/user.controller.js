@@ -25,7 +25,7 @@ export const getAllUsers = async (req, res) => {
         { _id: { $ne: loggedInUser } },
       ],
     })
-      .select("firstName, lastName, photoUrl, age, gender ")
+      .select("firstName lastName photoUrl age gender ")
       .skip(skip)
       .limit(limit);
 

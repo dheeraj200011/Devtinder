@@ -7,6 +7,7 @@ import { addUser } from "../redux/userSlice.js";
 
 const Login = () => {
   const [login, setLogin] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loginData, setLoginData] = useState({
@@ -55,6 +56,7 @@ const Login = () => {
         dispatch(addUser(response.data));
       }
     } catch (error) {
+      setError("invalid email and password");
       console.error(
         "Error:",
         error.response?.data?.message || error.message || "Something went wrong"
@@ -127,6 +129,7 @@ const Login = () => {
               </>
             )}
           </div>
+          <p className="text-red-500">{error}</p>
 
           <button
             onClick={() => submitLogin()}
