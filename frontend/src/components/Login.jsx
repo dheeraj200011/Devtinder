@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUrl, signupUrl } from "../../utils/constants.js";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/userSlice.js";
 
 const Login = () => {
   const [login, setLogin] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loginData, setLoginData] = useState({
     firstname: "",
     lastname: "",
@@ -36,7 +39,8 @@ const Login = () => {
           email: loginData.email,
           password: loginData.password,
         });
-        console.log(response.data);
+        dispatch(addUser(response.data));
+        setLogin(!login);
       } else {
         const response = await axios.post(
           loginUrl,
@@ -46,8 +50,9 @@ const Login = () => {
           },
           { withCredentials: true }
         );
-        navigate("/");
         console.log(response.data);
+        navigate("/feed");
+        dispatch(addUser(response.data));
       }
     } catch (error) {
       console.error(

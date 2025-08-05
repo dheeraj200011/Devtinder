@@ -4,6 +4,9 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/Login.jsx";
 import Profile from "./components/Profile.jsx";
+import store from "./redux/store.js";
+import { Provider } from "react-redux";
+import Feeds from "./components/Feeds.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -18,12 +21,18 @@ const appRouter = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
+      {
+        path: "/feed",
+        element: <Feeds />,
+      },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={appRouter}>
-    <App />
-  </RouterProvider>
+  <Provider store={store}>
+    <RouterProvider router={appRouter}>
+      <App />
+    </RouterProvider>
+  </Provider>
 );

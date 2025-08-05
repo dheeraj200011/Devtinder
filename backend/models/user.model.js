@@ -47,6 +47,8 @@ const userSchema = new Schema(
     },
     photoUrl: {
       type: String,
+      default:
+        "https://scontent.fknu1-5.fna.fbcdn.net/v/t1.6435-1/117182627_6451260514962961_4918996006021310312_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=105&ccb=1-7&_nc_sid=1d2534&_nc_ohc=S7CLh0xtEYwQ7kNvwGhaDnS&_nc_oc=AdmB2diDrsdgqS8NELAKxBWOlrD0-MgRPumNSMHvTQgHmhlNPQKfrtqo9_YSyCppJcxokxLlbfQHR2yM03_rZ_-c&_nc_zt=24&_nc_ht=scontent.fknu1-5.fna&_nc_gid=dZloiI7yi2-7qlvi9ashhw&oh=00_AfX4ml8hLHPLInWrYYBcrUV9w04FIkfbGMxhyQxSj-7yiw&oe=68B7E802",
     },
     description: {
       type: String,
