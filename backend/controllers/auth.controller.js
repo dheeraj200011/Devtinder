@@ -49,7 +49,11 @@ export const userLogin = async (req, res) => {
   const token = user.getJWT();
 
   // Set the token as a cookie
-  res.cookie("token", token, { httpOnly: true });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "Lax",
+  });
 
   // Return success response
   return res.status(200).json({

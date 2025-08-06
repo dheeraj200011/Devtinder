@@ -19,11 +19,19 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const userId = req.userId;
-  const { firstName, lastName, email, skills } = req.body;
+  const { firstName, lastName, skills, age, gender, description, email } =
+    req.body;
 
   try {
     // ye basically hume restrict karta hai ki sirf allowed fields hi update ho sake
-    const ALLOWED_FIELDS = ["firstName", "lastName", "email", "age", "skills"];
+    const ALLOWED_FIELDS = [
+      "firstName",
+      "lastName",
+      "age",
+      "skills",
+      "gender",
+      "description",
+    ];
 
     const isUpdateAllowed = Object.keys(req.body).every((k) =>
       ALLOWED_FIELDS.includes(k)
@@ -37,18 +45,9 @@ export const updateUser = async (req, res) => {
       throw new Error("You can only have a maximum of 5 skills");
     }
 
-    if (!validator.isEmail(email)) {
-      throw new Error("Email is not valid");
-    }
-
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      {
-        firstName,
-        lastName,
-        email,
-        skills,
-      },
+      { firstName, lastName, skills, age, gender, description },
       { new: true }
     );
     if (!updatedUser) {

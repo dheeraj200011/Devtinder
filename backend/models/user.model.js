@@ -18,11 +18,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      validate(value) {
-        if (!validator.isEmail(value)) {
-          throw new Error("Email is not valid");
-        }
-      },
     },
     password: {
       type: String,
@@ -55,11 +50,6 @@ const userSchema = new Schema(
     },
     skills: {
       type: [String],
-      validate(value) {
-        if (value.length > 5) {
-          throw new Error("You can only have a maximum of 5 skills");
-        }
-      },
     },
   },
   {

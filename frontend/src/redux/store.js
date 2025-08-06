@@ -8,4 +8,5 @@ const store = configureStore({
     feed: feedReducer,
   },
 });
+
 export default store;
