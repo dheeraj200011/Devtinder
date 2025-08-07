@@ -8,7 +8,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user?.user || null);
-  console.log(user);
 
   const handleLogout = async () => {
     try {
@@ -62,11 +61,14 @@ const Navbar = () => {
               >
                 <li>
                   <Link to="/profile" className="justify-between">
-                    Profile <span className="badge">New</span>
+                    Profile
                   </Link>
                 </li>
                 <li>
-                  <Link to="/settings">Settings</Link>
+                  <Link to="/connections">Connections</Link>
+                </li>
+                <li>
+                  <Link to="/request-recieved">Requsets</Link>
                 </li>
                 <li>
                   <button onClick={handleLogout}>Logout</button>

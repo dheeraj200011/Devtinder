@@ -21,7 +21,7 @@ const Feeds = () => {
 
   return (
     <div className="grid grid-cols-4 gap-2">
-      {allFeeds?.map((user, index) => (
+      {allFeeds?.map((user) => (
         <div key={user._id}>
           <FeedCard feedData={user} />
         </div>

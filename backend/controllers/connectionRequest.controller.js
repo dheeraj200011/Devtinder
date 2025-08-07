@@ -6,28 +6,24 @@ export const sendConnectionRequest = async (req, res) => {
   const fromUserId = req.userId;
   const status = req.params.status;
 
-  const fromUser = await User.findById(fromUserId);
-
   try {
-    // Check required values
     if (!toUserId || !fromUserId) {
       return res.status(400).json({ message: "Missing user IDs" });
     }
 
-    // Prevent user from sending request to themselves
     if (fromUserId === toUserId) {
       return res
         .status(400)
         .json({ message: "You cannot send request to yourself" });
     }
 
-    // Check if target user exists
     const toUser = await User.findById(toUserId);
-    if (!toUser) {
+    const fromUser = await User.findById(fromUserId);
+
+    if (!toUser || !fromUser) {
       return res.status(404).json({ message: "User does not exist" });
     }
 
-    // Check if connection already exists
     const existingConnection = await RequestModel.findOne({
       $or: [
         { fromUserId, toUserId },
@@ -39,16 +35,19 @@ export const sendConnectionRequest = async (req, res) => {
       return res.status(400).json({ message: "Connection already exists" });
     }
 
-    // Create new connection request with default 'pending' status
     const newConnection = await RequestModel.create({
       fromUserId,
       toUserId,
       status,
     });
 
+    const populatedConnection = await RequestModel.findById(newConnection._id)
+      .populate("fromUserId", "firstName lastName photoUrl")
+      .populate("toUserId", "firstName lastName photoUrl");
+
     return res.status(201).json({
-      message: `${fromUser.firstName} is ${status} ${toUser.firstName} `,
-      data: newConnection,
+      message: `${fromUser.firstName} is ${status} ${toUser.firstName}`,
+      data: populatedConnection,
     });
   } catch (error) {
     console.error("Error making connection:", error);
@@ -58,36 +57,32 @@ export const sendConnectionRequest = async (req, res) => {
 
 export const reviewConnectionRequest = async (req, res) => {
   const loggedInUser = req.userId;
-  const requestId = req.params.requestId;
-  const status = req.params.status;
+  const { requestId, status } = req.params;
 
-  const allowedRequest = ["accepted", "rejected"];
-  const isAllowedRequests = allowedRequest.includes(status);
-  if (!isAllowedRequests) {
-    res
-      .status(400)
-      .json({ message: "person is not able to accept the request" });
+  const allowedStatuses = ["accepted", "rejected"];
+  if (!allowedStatuses.includes(status)) {
+    return res.status(400).json({ message: "Invalid request status" });
   }
 
   try {
-    const coonectionRequest = await RequestModel.findOne({
+    const connectionRequest = await RequestModel.findOne({
       _id: requestId,
       toUserId: loggedInUser,
       status: "interested",
     });
 
-    if (!coonectionRequest) {
-      res
-        .status(400)
-        .json({ message: "person is not able to accept the request" });
+    if (!connectionRequest) {
+      return res
+        .status(404)
+        .json({ message: "Request not found or already reviewed" });
     }
 
-    coonectionRequest.status = status;
-    await coonectionRequest.save();
-    res.status(200).json({ message: "request accepted" });
-    res;
+    connectionRequest.status = status;
+    await connectionRequest.save();
+
+    return res.status(200).json({ message: `Request ${status} successfully` });
   } catch (error) {
-    console.error("Error making connection:", error);
+    console.error("Error reviewing connection request:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

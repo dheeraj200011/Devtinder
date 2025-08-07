@@ -19,7 +19,7 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const userId = req.userId;
-  const { firstName, lastName, skills, age, gender, description, email } =
+  const { firstName, lastName, skills, age, gender, description, photoUrl } =
     req.body;
 
   try {
@@ -31,6 +31,7 @@ export const updateUser = async (req, res) => {
       "skills",
       "gender",
       "description",
+      "photoUrl",
     ];
 
     const isUpdateAllowed = Object.keys(req.body).every((k) =>
@@ -47,7 +48,7 @@ export const updateUser = async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { firstName, lastName, skills, age, gender, description },
+      { firstName, lastName, skills, age, gender, description, photoUrl },
       { new: true }
     );
     if (!updatedUser) {

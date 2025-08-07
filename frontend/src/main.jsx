@@ -7,6 +7,8 @@ import Profile from "./components/Profile.jsx";
 import store from "./redux/store.js";
 import { Provider } from "react-redux";
 import Feeds from "./components/Feeds.jsx";
+import Connections from "./components/Connections.jsx";
+import RequsetRecieved from "./components/RequsetRecieved.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -24,6 +26,14 @@ const appRouter = createBrowserRouter([
       {
         path: "/feed",
         element: <Feeds />,
+      },
+      {
+        path: "/connections",
+        element: <Connections />,
+      },
+      {
+        path: "/request-recieved",
+        element: <RequsetRecieved />,
       },
     ],
   },

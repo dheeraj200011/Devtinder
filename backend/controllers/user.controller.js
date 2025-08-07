@@ -10,7 +10,7 @@ export const getAllUsers = async (req, res) => {
   try {
     const connectionRequests = await RequestModel.find({
       $or: [{ fromUserId: loggedInUser }, { toUserId: loggedInUser }],
-    }).select("fromUserId touserId");
+    }).select("fromUserId toUserId");
 
     const hideUsersFromFeed = new Set();
 
@@ -19,13 +19,12 @@ export const getAllUsers = async (req, res) => {
       hideUsersFromFeed.add(req.toUserId.toString());
     });
 
+    hideUsersFromFeed.add(loggedInUser); // ✅ add self for clarity
+
     const users = await User.find({
-      $and: [
-        { _id: { $nin: Array.from(hideUsersFromFeed) } },
-        { _id: { $ne: loggedInUser } },
-      ],
+      _id: { $nin: Array.from(hideUsersFromFeed) },
     })
-      .select("firstName lastName photoUrl age gender ")
+      .select("firstName lastName photoUrl age gender")
       .skip(skip)
       .limit(limit);
 
@@ -38,24 +37,38 @@ export const getAllUsers = async (req, res) => {
 
 export const allConnections = async (req, res) => {
   const userId = req.userId;
-  const loggedInUser = await User.findById(userId);
 
   try {
+    const loggedInUser = await User.findById(userId);
+    if (!loggedInUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     const allConnection = await RequestModel.find({
-      toUserId: loggedInUser._id,
-      fromUserId: loggedInUser._id,
       status: "accepted",
+      $or: [{ fromUserId: loggedInUser._id }, { toUserId: loggedInUser._id }],
     })
-      .populate("fromUserId", ["firstName", "LastName"])
-      .populate("toUserId", ["firstName", "LastName"]);
+      .populate("fromUserId", [
+        "firstName",
+        "lastName",
+        "photoUrl",
+        "description",
+      ])
+      .populate("toUserId", [
+        "firstName",
+        "lastName",
+        "photoUrl",
+        "description",
+      ]);
 
     const data = allConnection.map((row) => {
-      if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
-        return row.toUserId;
-      }
-      row.fromUserId;
+      const fromId = row.fromUserId._id.toString();
+      const toId = row.toUserId._id.toString();
+
+      return fromId === userId ? row.toUserId : row.fromUserId;
     });
-    res.status(200).json({ data });
+
+    return res.status(200).json(data); //
   } catch (error) {
     console.error("Error fetching users:", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -64,19 +77,27 @@ export const allConnections = async (req, res) => {
 
 export const getRequests = async (req, res) => {
   const userId = req.userId;
-  const loggedInUser = await User.findById(userId);
+
   try {
-    const userRequets = await RequestModel.find({
+    const loggedInUser = await User.findById(userId);
+
+    const userRequests = await RequestModel.find({
       toUserId: loggedInUser._id,
       status: "interested",
-    }).populate("fromUserId", ["firstName", "LastName"]);
-    if (!userRequets) {
-      res.status(400).json({ message: "No Request Found" });
-    } else {
-      res.status(200).json({ userRequets });
+    }).populate("fromUserId", [
+      "firstName",
+      "lastName",
+      "photoUrl",
+      "description",
+    ]);
+
+    if (!userRequests || userRequests.length === 0) {
+      return res.status(404).json({ message: "No requests found" });
     }
+
+    res.status(200).json({ userRequests });
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching user requests:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
