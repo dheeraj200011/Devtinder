@@ -1,5 +1,5 @@
 // constants.js
-const BASE_URL = "http://54.242.172.199/api";
+const BASE_URL = "http://54.242.172.199";
 
 export const loginUrl = `${BASE_URL}/api/v1/auth/login`;
 export const signupUrl = `${BASE_URL}/api/v1/auth/signup`;
