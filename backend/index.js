@@ -13,6 +13,10 @@ const app = express();
 
 // MIDDLEWARE
 
+app.get("/", (req, res) => {
+  res.send("backend is runninmg");
+});
+
 // Apply CORS middleware
 
 app.use(
@@ -36,7 +40,7 @@ app.use("/api/v1/request", requestRoute); // request route for sending and accep
 
 connectDb()
   .then(() => {
-    app.listen(process.env.PORT, () => {
+    app.listen(3000 || process.env.PORT, "0.0.0.0", () => {
       console.log(`Server is running on port ${process.env.PORT}`);
     });
   })
