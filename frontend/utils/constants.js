@@ -1,4 +1,4 @@
-export const loginUrl = "http://http://54.242.172.199/api/api/v1/auth/login";
+export const loginUrl = "http://54.242.172.199/api/api/v1/auth/login";
 export const signupUrl = "http://54.242.172.199/api/api/v1/auth/signup";
 export const logoutUrl = "http://54.242.172.199/api/api/v1/auth/logout";
 export const getprofile =
