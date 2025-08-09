@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // or whatever your frontend URL is
+    origin: "http://54.242.172.199/", // or whatever your frontend URL is
     credentials: true,
   })
 );
