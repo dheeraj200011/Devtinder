@@ -1,5 +1,4 @@
-// constants.js
-const BASE_URL = "http://54.242.172.199/api/v1";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const loginUrl = `${BASE_URL}/auth/login`;
 export const signupUrl = `${BASE_URL}/auth/signup`;
