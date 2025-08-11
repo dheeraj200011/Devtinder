@@ -1,9 +1,10 @@
 import axios from "axios";
+import { sendConnectionRequest } from "../../utils/constants.js";
 const FeedCard = ({ feedData }) => {
   const handleConnectionRequest = async (status, id) => {
     try {
       const res = await axios.post(
-        `http://localhost:3000/api/v1/request/send/${status}/${id}`,
+        `${sendConnectionRequest}/${status}/${id}`,
         {},
         { withCredentials: true }
       );

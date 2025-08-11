@@ -26,7 +26,7 @@ const RequsetRecieved = () => {
   const reviewRequest = async (status, id) => {
     try {
       const res = await axios.post(
-        `http://localhost:3000/api/v1/request/review/${status}/${id}`,
+        `${reviewConnectionRequest}/${status}/${id}`,
         {},
         { withCredentials: true }
       );

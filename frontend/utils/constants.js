@@ -9,4 +9,4 @@ export const editProfileUrl = `${BASE_URL}/profile/editprofile`;
 export const getAllConnectionUrl = `${BASE_URL}/user/connections`;
 export const getAllRequsetUrl = `${BASE_URL}/user/requests`;
 export const sendConnectionRequest = `${BASE_URL}/request/send`;
-export const reviewConnectionRequest = `${BASE_URL}/request/review/:status/:requestId`;
+export const reviewConnectionRequest = `${BASE_URL}/request/review/`;
