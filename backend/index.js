@@ -21,11 +21,7 @@ app.get("/", (req, res) => {
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173", // frontend local dev
-      "http://54.242.172.199", // production frontend
-      "http://54.242.172.199:5173", // if you test with port
-    ], // if you test with port, // or whatever your frontend URL is
+    origin: ["https://dashdevs.agency/", "https://http://54.242.172.199/"],
     credentials: true,
   })
 );
