@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 
 app.use(
   cors({
-    origin: ["https://dashdevs.agency/", "https://54.242.172.199/"],
+    origin: ["https://dashdevs.agency/", "https://http://54.242.172.199/"],
     credentials: true,
   })
 );
@@ -30,10 +30,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // ye auth ke liye importanat hai isme cookie store hoti hai
 
 // ROUTES
-app.use("/v1/auth", authRoute);
-app.use("/v1/profile", profileRoute);
-app.use("/v1/user", userRoute); // user route for getting all users
-app.use("/v1/request", requestRoute); // request route for sending and accepting friend requests
+app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/profile", profileRoute);
+app.use("/api/v1/user", userRoute); // user route for getting all users
+app.use("/api/v1/request", requestRoute); // request route for sending and accepting friend requests
 
 // SERVER
 // sabse phle database se connect karna hai phir server ko start karna hota hai
