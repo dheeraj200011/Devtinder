@@ -28,11 +28,13 @@ const createSendEmailCommand = (
         Data: subject,
       },
     },
-    Source: fromAddress, // Must be verified in SES unless you are in production mode
+    Source: fromAddress, // must be verified in SES if in sandbox
   });
 };
 
 const run = async () => {
+  console.log("🚀 Starting SES email send...");
+
   const sendEmailCommand = createSendEmailCommand(
     "dheeraj.aggrigator@gmail.com", // recipient
     "dheeraj200011@gmail.com", // sender
@@ -43,13 +45,10 @@ const run = async () => {
 
   try {
     const response = await sesClient.send(sendEmailCommand);
-    console.log("Email sent successfully:", response);
+    console.log("✅ Email sent successfully:", response);
     return response;
   } catch (error) {
-    if (error.name === "MessageRejected") {
-      console.error("Message rejected:", error.message);
-      return error;
-    }
+    console.error("❌ Error sending email:", error);
     throw error;
   }
 };

@@ -46,8 +46,10 @@ export const sendConnectionRequest = async (req, res) => {
       .populate("fromUserId", "firstName lastName photoUrl")
       .populate("toUserId", "firstName lastName photoUrl");
 
+    // --- Email Sending ---
+    console.log("📨 Sending connection request email...");
     const emailRequest = await sendEmail.run();
-    console.log("Email sent:", emailRequest);
+    console.log("📨 Email send result:", emailRequest);
 
     return res.status(201).json({
       message: `${fromUser.firstName} is ${status} ${toUser.firstName}`,
