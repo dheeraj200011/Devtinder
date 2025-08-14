@@ -7,9 +7,12 @@ import authRoute from "./routes/auth.route.js";
 import profileRoute from "./routes/profile.route.js";
 import userRoute from "./routes/user.route.js";
 import requestRoute from "./routes/connectionRequest.route.js";
+import cronJob from "./config/cronjob.js";
 
 dotenv.config();
 const app = express();
+
+cronJob();
 
 // MIDDLEWARE
 

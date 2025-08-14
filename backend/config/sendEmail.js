@@ -1,23 +1,13 @@
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { sesClient } from "./sesClient.js";
 
-const createSendEmailCommand = (
-  toAddress,
-  fromAddress,
-  subject,
-  textBody,
-  htmlBody
-) => {
+const createSendEmailCommand = (toAddress, fromAddress, subject, textBody) => {
   return new SendEmailCommand({
     Destination: {
       ToAddresses: [toAddress],
     },
     Message: {
       Body: {
-        Html: {
-          Charset: "UTF-8",
-          Data: htmlBody,
-        },
         Text: {
           Charset: "UTF-8",
           Data: textBody,
@@ -32,15 +22,12 @@ const createSendEmailCommand = (
   });
 };
 
-const run = async () => {
-  console.log("🚀 Starting SES email send...");
-
+const run = async (subject, body, toEmailId) => {
   const sendEmailCommand = createSendEmailCommand(
-    "dheeraj.aggrigator@gmail.com", // recipient
+    toEmailId, // recipient
     "dheeraj200011@gmail.com", // sender
-    "Hello from AWS SES", // subject
-    "This is the plain text version of the email.",
-    "<h1>This is the HTML version</h1><p>Sent via AWS SES.</p>"
+    subject,
+    body
   );
 
   try {
