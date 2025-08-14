@@ -37,3 +37,6 @@ DevTinder API
 - GET /user/feed - Gets you the profiles of other users on platform : Done
 
 Status: ignore, interested, accepted, rejected
+
+// aws-ses email
+send eamil: link: https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javascriptv3/example_code/ses/src/ses_sendemail.js

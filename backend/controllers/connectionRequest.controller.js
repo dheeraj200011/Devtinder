@@ -1,5 +1,6 @@
 import RequestModel from "../models/connectionRequest.model.js";
 import User from "../models/user.model.js";
+import sendEmail from "../config/sendEmail.js";
 
 export const sendConnectionRequest = async (req, res) => {
   const toUserId = req.params.touserId;
@@ -44,6 +45,9 @@ export const sendConnectionRequest = async (req, res) => {
     const populatedConnection = await RequestModel.findById(newConnection._id)
       .populate("fromUserId", "firstName lastName photoUrl")
       .populate("toUserId", "firstName lastName photoUrl");
+
+    const emailRequest = await sendEmail.run();
+    console.log("Email sent:", emailRequest);
 
     return res.status(201).json({
       message: `${fromUser.firstName} is ${status} ${toUser.firstName}`,
